@@ -1,45 +1,33 @@
+
+
+
 // ================================
 // Wedding Countdown
 // ================================
 
 const weddingDate = new Date("August 09, 2026 11:00:00").getTime();
 
-const timer = setInterval(function () {
+const timer = setInterval(() => {
 
     const now = new Date().getTime();
-
     const distance = weddingDate - now;
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-
-    const hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) /
-        (1000 * 60 * 60)
-    );
-
-    const minutes = Math.floor(
-        (distance % (1000 * 60 * 60)) /
-        (1000 * 60)
-    );
-
-    const seconds = Math.floor(
-        (distance % (1000 * 60)) /
-        1000
-    );
-
-    document.getElementById("days").innerHTML = days;
-    document.getElementById("hours").innerHTML = hours;
-    document.getElementById("minutes").innerHTML = minutes;
-    document.getElementById("seconds").innerHTML = seconds;
-
     if (distance < 0) {
-
         clearInterval(timer);
-
         document.querySelector(".countdown").innerHTML =
-            "<h2>💍 Alhamdulillah! Our Wedding Day Has Arrived 💖</h2>";
-
+            "<h2>💍 Alhamdulillah! Our Wedding Day Has Arrived ❤️</h2>";
+        return;
     }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("days").textContent = days;
+    document.getElementById("hours").textContent = hours;
+    document.getElementById("minutes").textContent = minutes;
+    document.getElementById("seconds").textContent = seconds;
 
 }, 1000);
 
@@ -51,38 +39,34 @@ const timer = setInterval(function () {
 const music = document.getElementById("bgMusic");
 const musicBtn = document.getElementById("musicBtn");
 
-let playing = false;
+let started = false;
 
-document.body.addEventListener("click", function () {
+// Play music on first tap anywhere
+document.body.addEventListener("click", () => {
 
-    if (!playing) {
-
-        music.play();
-
-        playing = true;
-
-        musicBtn.innerHTML = " 🔇 ";
-
+    if (!started) {
+        music.play().catch(() => {});
+        started = true;
+        musicBtn.innerHTML = "🔇";
     }
 
 }, { once: true });
 
 
-musicBtn.addEventListener("click", function () {
+// Toggle Music
+musicBtn.addEventListener("click", (e) => {
+
+    e.stopPropagation();
 
     if (music.paused) {
 
         music.play();
+        musicBtn.innerHTML = "🔇";
 
-        musicBtn.innerHTML = " 🔇 ";
-
-    }
-
-    else {
+    } else {
 
         music.pause();
-
-        musicBtn.innerHTML = " 🔊 ";
+        musicBtn.innerHTML = "🔊";
 
     }
 
@@ -102,8 +86,7 @@ const icons = [
     "🌸",
     "✨",
     "🌹",
-    "🤍",
-    "🎊",
+    "🤍"
 ];
 
 function createHeart() {
@@ -118,45 +101,54 @@ function createHeart() {
     heart.style.left = Math.random() * 100 + "%";
 
     heart.style.animationDuration =
-        (6 + Math.random() * 8) + "s";
+        (6 + Math.random() * 6) + "s";
 
     heart.style.fontSize =
-        (18 + Math.random() * 20) + "px";
+        (18 + Math.random() * 18) + "px";
 
     hearts.appendChild(heart);
 
-    setTimeout(function () {
+    setTimeout(() => {
 
         heart.remove();
 
-    }, 14000);
+    }, 12000);
 
 }
 
-setInterval(createHeart, 450);
+setInterval(createHeart, 500);
 
 
 // ================================
-// Smooth Fade-in Animation
+// Scratch to Reveal Date
 // ================================
 
 const scratch = document.getElementById("scratchLayer");
 
 if (scratch) {
-    scratch.addEventListener("mousemove", function(e) {
-        if (e.buttons === 1) {
-            scratch.style.opacity = "0";
-        }
-    });
 
-    scratch.addEventListener("touchmove", function() {
+    function revealDate() {
+
         scratch.style.opacity = "0";
-    });
+        scratch.style.pointerEvents = "none";
+
+    }
+
+    // Desktop
+    scratch.addEventListener("click", revealDate);
+
+    // Android & iPhone
+    scratch.addEventListener("touchstart", revealDate);
+
 }
-window.addEventListener("load", function () {
+
+
+// ================================
+// Fade In Page
+// ================================
+
+window.addEventListener("load", () => {
 
     document.body.style.opacity = "1";
 
 });
-
-
