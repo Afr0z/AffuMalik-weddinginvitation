@@ -1,6 +1,3 @@
-
-
-
 // ================================
 // Wedding Countdown
 // ================================
@@ -19,15 +16,17 @@ const timer = setInterval(() => {
         return;
     }
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    document.getElementById("days").textContent =
+        Math.floor(distance / (1000 * 60 * 60 * 24));
 
-    document.getElementById("days").textContent = days;
-    document.getElementById("hours").textContent = hours;
-    document.getElementById("minutes").textContent = minutes;
-    document.getElementById("seconds").textContent = seconds;
+    document.getElementById("hours").textContent =
+        Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+    document.getElementById("minutes").textContent =
+        Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+    document.getElementById("seconds").textContent =
+        Math.floor((distance % (1000 * 60)) / 1000);
 
 }, 1000);
 
@@ -41,7 +40,6 @@ const musicBtn = document.getElementById("musicBtn");
 
 let started = false;
 
-// Play music on first tap anywhere
 document.body.addEventListener("click", () => {
 
     if (!started) {
@@ -52,8 +50,6 @@ document.body.addEventListener("click", () => {
 
 }, { once: true });
 
-
-// Toggle Music
 musicBtn.addEventListener("click", (e) => {
 
     e.stopPropagation();
@@ -79,15 +75,7 @@ musicBtn.addEventListener("click", (e) => {
 
 const hearts = document.getElementById("hearts");
 
-const icons = [
-    "❤️",
-    "💖",
-    "💕",
-    "🌸",
-    "✨",
-    "🌹",
-    "🤍"
-];
+const icons = ["❤️","💖","💕","🌸","✨","🌹","🤍"];
 
 function createHeart() {
 
@@ -95,23 +83,16 @@ function createHeart() {
 
     heart.className = "heart";
 
-    heart.innerHTML =
-        icons[Math.floor(Math.random() * icons.length)];
+    heart.innerHTML = icons[Math.floor(Math.random() * icons.length)];
 
     heart.style.left = Math.random() * 100 + "%";
-
-    heart.style.animationDuration =
-        (6 + Math.random() * 6) + "s";
-
-    heart.style.fontSize =
-        (18 + Math.random() * 18) + "px";
+    heart.style.animationDuration = (6 + Math.random() * 6) + "s";
+    heart.style.fontSize = (18 + Math.random() * 18) + "px";
 
     hearts.appendChild(heart);
 
     setTimeout(() => {
-
         heart.remove();
-
     }, 12000);
 
 }
@@ -120,25 +101,73 @@ setInterval(createHeart, 500);
 
 
 // ================================
-// Scratch to Reveal Date
+// Real Scratch Card
 // ================================
 
-const scratch = document.getElementById("scratchLayer");
+const canvas = document.getElementById("scratchCanvas");
 
-if (scratch) {
+if (canvas) {
 
-    function revealDate() {
+    const ctx = canvas.getContext("2d");
 
-        scratch.style.opacity = "0";
-        scratch.style.pointerEvents = "none";
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
 
+    // Silver scratch layer
+    ctx.fillStyle = "#B8B8B8";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Scratch text
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 22px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("Scratch Here", canvas.width / 2, canvas.height / 2);
+
+    ctx.globalCompositeOperation = "destination-out";
+
+    let scratching = false;
+
+    function erase(x, y) {
+        ctx.beginPath();
+        ctx.arc(x, y, 25, 0, Math.PI * 2);
+        ctx.fill();
     }
 
-    // Desktop
-    scratch.addEventListener("click", revealDate);
+    canvas.addEventListener("mousedown", () => scratching = true);
+    canvas.addEventListener("mouseup", () => scratching = false);
+    canvas.addEventListener("mouseleave", () => scratching = false);
 
-    // Android & iPhone
-    scratch.addEventListener("touchstart", revealDate);
+    canvas.addEventListener("mousemove", (e) => {
+        if (!scratching) return;
+
+        const rect = canvas.getBoundingClientRect();
+
+        erase(
+            e.clientX - rect.left,
+            e.clientY - rect.top
+        );
+    });
+
+    canvas.addEventListener("touchstart", () => scratching = true);
+
+    canvas.addEventListener("touchend", () => scratching = false);
+
+    canvas.addEventListener("touchmove", (e) => {
+
+        e.preventDefault();
+
+        if (!scratching) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+
+        erase(
+            touch.clientX - rect.left,
+            touch.clientY - rect.top
+        );
+
+    }, { passive: false });
 
 }
 
@@ -148,7 +177,5 @@ if (scratch) {
 // ================================
 
 window.addEventListener("load", () => {
-
     document.body.style.opacity = "1";
-
 });
