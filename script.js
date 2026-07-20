@@ -61,7 +61,7 @@ document.body.addEventListener("click", function () {
 
         playing = true;
 
-        musicBtn.innerHTML = "🔇 ";
+        musicBtn.innerHTML = " 🔇 ";
 
     }
 
@@ -74,7 +74,7 @@ musicBtn.addEventListener("click", function () {
 
         music.play();
 
-        musicBtn.innerHTML = "🔇 ";
+        musicBtn.innerHTML = " 🔇 ";
 
     }
 
@@ -82,7 +82,7 @@ musicBtn.addEventListener("click", function () {
 
         music.pause();
 
-        musicBtn.innerHTML = "🔊 ";
+        musicBtn.innerHTML = " 🔊 ";
 
     }
 
@@ -140,12 +140,6 @@ setInterval(createHeart, 450);
 // Smooth Fade-in Animation
 // ================================
 
-window.addEventListener("load", function () {
-
-    document.body.style.opacity = "1";
-
-});
-
 const scratch = document.getElementById("scratchLayer");
 
 if (scratch) {
@@ -159,3 +153,10 @@ if (scratch) {
         scratch.style.opacity = "0";
     });
 }
+window.addEventListener("load", function () {
+
+    document.body.style.opacity = "1";
+
+});
+
+
