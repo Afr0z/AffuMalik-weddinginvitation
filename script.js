@@ -145,3 +145,17 @@ window.addEventListener("load", function () {
     document.body.style.opacity = "1";
 
 });
+
+const scratch = document.getElementById("scratchLayer");
+
+if (scratch) {
+    scratch.addEventListener("mousemove", function(e) {
+        if (e.buttons === 1) {
+            scratch.style.opacity = "0";
+        }
+    });
+
+    scratch.addEventListener("touchmove", function() {
+        scratch.style.opacity = "0";
+    });
+}
