@@ -61,7 +61,7 @@ document.body.addEventListener("click", function () {
 
         playing = true;
 
-        musicBtn.innerHTML = "🔇 Mute";
+        musicBtn.innerHTML = "🔇 ";
 
     }
 
@@ -74,7 +74,7 @@ musicBtn.addEventListener("click", function () {
 
         music.play();
 
-        musicBtn.innerHTML = "🔇 Mute";
+        musicBtn.innerHTML = "🔇 ";
 
     }
 
@@ -82,7 +82,7 @@ musicBtn.addEventListener("click", function () {
 
         music.pause();
 
-        musicBtn.innerHTML = "🔊 Music";
+        musicBtn.innerHTML = "🔊 ";
 
     }
 
@@ -102,7 +102,8 @@ const icons = [
     "🌸",
     "✨",
     "🌹",
-    "🤍"
+    "🤍",
+    "🎊",
 ];
 
 function createHeart() {
