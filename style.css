@@ -417,4 +417,53 @@ font-size:32px;
 
 }
 
+
+
+  /* Mobile Responsive */
+
+@media (max-width: 768px) {
+
+.hero h1{
+    font-size:38px;
+}
+
+.hero p{
+    font-size:16px;
+}
+
+.date-box,
+.scratch-box{
+    width:90%;
+    max-width:300px;
+}
+
+.countdown{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.countdown div{
+    padding:15px;
+}
+
+.map-container iframe{
+    height:250px;
+}
+
+.venue p,
+.footer p{
+    font-size:16px;
+    line-height:1.6;
+}
+
+#musicBtn{
+    width:55px;
+    height:55px;
+    font-size:24px;
+    right:15px;
+    bottom:15px;
+}
+
+}
 }
